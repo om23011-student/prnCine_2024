@@ -11,6 +11,7 @@ import java.util.List;
 public class TipoReserva implements Serializable {
     @Id
     @Column(name = "id_tipo_reserva", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTipoReserva;
 
     @Size(max = 155)

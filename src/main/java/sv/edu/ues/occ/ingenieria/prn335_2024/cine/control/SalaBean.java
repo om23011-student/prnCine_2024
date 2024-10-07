@@ -25,9 +25,8 @@ EntityManager em;
         return em;
     }
 
-
     public List<Sala> findByIdTipoSala(Integer idTipoSala,int first,int max){
-if (idTipoSala != null){
+    if (idTipoSala != null){
     try{
         if (em!=null){
           Query q= em.createNamedQuery("Sala.findByIdTipoSala");

@@ -6,6 +6,8 @@
     <context-param>
         <param-name>jakarta.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
+        <!-- param-value: que trae por defecto es: Production, el que usamos nosotro es
+        Development-->
     </context-param>
 <servlet>
 <servlet-name>FacesServlet</servlet-name>

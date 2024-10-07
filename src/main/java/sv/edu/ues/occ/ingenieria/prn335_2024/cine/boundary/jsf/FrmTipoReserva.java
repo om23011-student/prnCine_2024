@@ -7,52 +7,52 @@ import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.TipoSalaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoSala;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.TipoReservaBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoReserva;
+
+
 
 import java.io.Serializable;
 import java.util.List;
 
 @Named
 @ViewScoped
-public class FrmTipoSala extends AbstractFrmsHtml<TipoSala> implements Serializable {
+public class FrmTipoReserva extends AbstractFrmsHtml<TipoReserva> implements Serializable {
     @Inject
-    private TipoSalaBean tsBean;
-
+    TipoReservaBean trBean;
     @Inject
     private FacesContext facesContext;
-
-    private ESTADO_CRUD estado;
-    private List<TipoSala> registros;
-    private TipoSala registro;
-
+    TipoReserva registro;
+    List<TipoReserva> registros;
+    ESTADO_CRUD estado;
     @PostConstruct
     public void init() {
-        estado = ESTADO_CRUD.NINGUNO;
-        registros = tsBean.findRange(0, 10000);
-        registro = new TipoSala();
+        estado=ESTADO_CRUD.NINGUNO;
+        registros= trBean.findRange(0,10000);
+        registro = new TipoReserva();
     }
+
+
 
     @Override
     public void btnNuevoHandler(ActionEvent actionEvent) {
-        this.registro= new TipoSala();
+        this.registro= new TipoReserva();
         this.registro.setActivo(true);
-        this.registro.setExpresionRegular(".");
         this.estado=ESTADO_CRUD.CREAR;
     }
 
     @Override
     public void btnGuardarHandler(ActionEvent event) {
-        tsBean.create(registro);
+        trBean.create(registro);
         this.registro = null;
-        this.registros = tsBean.findRange(0, 10000);
+        this.registros = trBean.findRange(0, 10000);
         this.estado = ESTADO_CRUD.NINGUNO;
         agregarMensaje("Guardado exitosamente", null, FacesMessage.SEVERITY_INFO);
     }
 
     @Override
     public void btnModificarHandler(ActionEvent event) {
-        TipoSala actualizado = tsBean.update(registro);
+        TipoReserva actualizado = trBean.update(registro);
         if (actualizado != null) {
             this.registro = null;
             this.estado = ESTADO_CRUD.NINGUNO;
@@ -64,9 +64,9 @@ public class FrmTipoSala extends AbstractFrmsHtml<TipoSala> implements Serializa
 
     @Override
     public void btnEliminarHandler(ActionEvent event) {
-        tsBean.delete(registro);
+        trBean.delete(registro);
         this.registro = null;
-        this.registros = tsBean.findRange(0, 10000);
+        this.registros = trBean.findRange(0, 10000);
         this.estado = ESTADO_CRUD.NINGUNO;
         agregarMensaje("Registro eliminado con éxito", null, FacesMessage.SEVERITY_INFO);
     }
@@ -74,14 +74,13 @@ public class FrmTipoSala extends AbstractFrmsHtml<TipoSala> implements Serializa
     @Override
     public void btnSeleccionarRegistroHandler(Integer id) {
         if (id != null) {
-            this.registro = this.registros.stream().filter(t -> t.getIdTipoSala().equals(id)).findFirst().orElse(null);
+            this.registro = this.registros.stream().filter(t -> t.getIdTipoReserva().equals(id)).findFirst().orElse(null);
             this.estado = ESTADO_CRUD.MODIFICAR;
         } else {
             this.registro = null;
         }
     }
 
-    @Override
     public ESTADO_CRUD getEstado() {
         return estado;
     }
@@ -91,23 +90,20 @@ public class FrmTipoSala extends AbstractFrmsHtml<TipoSala> implements Serializa
         this.estado = estado;
     }
 
-    @Override
-    public TipoSala getRegistro() {
+
+    public TipoReserva getRegistro() {
         return registro;
     }
 
-    @Override
-    public void setRegistro(TipoSala registro) {
+    public void setRegistro(TipoReserva registro) {
         this.registro = registro;
     }
 
-    @Override
-    public List<TipoSala> getRegistros() {
+    public List<TipoReserva> getRegistros() {
         return registros;
     }
 
-    @Override
-    public void setRegistros(List<TipoSala> registros) {
+    public void setRegistros(List<TipoReserva> registros) {
         this.registros = registros;
     }
 }

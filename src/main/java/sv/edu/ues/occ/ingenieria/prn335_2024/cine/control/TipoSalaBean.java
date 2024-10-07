@@ -4,7 +4,6 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceException;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoSala;
 
 
@@ -32,4 +31,5 @@ public class TipoSalaBean extends AbstractDataPersist<TipoSala> implements Seria
     public EntityManager getEntityManager() {
         return em;
     }
+
 }

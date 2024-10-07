@@ -1,7 +1,7 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,9 @@ public class TipoSala implements Serializable {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "idTipoSala")
     private List<SalaCaracteristica> salaCaracteristica;
 
-    @Size(max = 155)
+
+    @NotBlank(message ="Debe ingresar un nombre valido" )
+    @Size(max = 155,min = 3, message = "Debe agregar un nombre entre 3 y 155 caracteres")
     @Column(name = "nombre", length = 155)
     private String nombre;
 
@@ -35,19 +37,13 @@ public class TipoSala implements Serializable {
 
 
     public TipoSala(Integer idTipoSala) {
+
         this.idTipoSala = idTipoSala;
     }
     public TipoSala() {
     }
 
 
-    public Integer getIdTipoSala() {
-        return idTipoSala;
-    }
-
-    public void setIdTipoSala(Integer idTipoSala) {
-        this.idTipoSala = this.idTipoSala;
-    }
 
     public String getNombre() {
         return nombre;
@@ -55,6 +51,14 @@ public class TipoSala implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getIdTipoSala() {
+        return idTipoSala;
+    }
+
+    public void setIdTipoSala(Integer idTipoSala) {
+        this.idTipoSala = idTipoSala;
     }
 
     public Boolean getActivo() {
@@ -88,4 +92,5 @@ public class TipoSala implements Serializable {
     public void setSalaCaracteristica(List<SalaCaracteristica> salaCaracteristica) {
         this.salaCaracteristica = salaCaracteristica;
     }
+
 }

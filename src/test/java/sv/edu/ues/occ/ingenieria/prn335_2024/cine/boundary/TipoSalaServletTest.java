@@ -17,12 +17,12 @@ class TipoSalaServletTest {
     @Test
     void doPost() throws IOException {
         System.out.println("TipoSalaServlet.doPost");
-       TipoSalaServlet cut = new TipoSalaServlet();
-       HttpServletRequest mockReq= Mockito.mock(HttpServletRequest.class);
-       HttpServletResponse mockResp= Mockito.mock(HttpServletResponse.class);
-       Mockito.when(mockReq.getParameter("nombre")).thenReturn("Chepe");
-       TipoSalaBean mockTS=  Mockito.mock(TipoSalaBean.class);
-       cut.tsBean= mockTS;
+        TipoSalaServlet cut = new TipoSalaServlet();
+        HttpServletRequest mockReq= Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse mockResp= Mockito.mock(HttpServletResponse.class);
+        Mockito.when(mockReq.getParameter("nombre")).thenReturn("Chepe");
+        TipoSalaBean mockTS=  Mockito.mock(TipoSalaBean.class);
+        cut.tsBean = mockTS;
         StringWriter sm= new StringWriter();
         PrintWriter printWriter = new PrintWriter(sm);
 
@@ -34,7 +34,7 @@ class TipoSalaServletTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-     Mockito.when(mockReq.getParameter("nombre")).thenReturn(null);
+        Mockito.when(mockReq.getParameter("nombre")).thenReturn(null);
         try{
             cut.doPost(mockReq,mockResp);
         }catch (ServletException e) {
@@ -45,9 +45,11 @@ class TipoSalaServletTest {
 
 
         //fail("Esto no funciona!");
+
     }
 
     @Test
     void doGet() {
+
     }
 }

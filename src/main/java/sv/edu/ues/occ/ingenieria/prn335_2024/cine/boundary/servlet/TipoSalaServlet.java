@@ -12,17 +12,17 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoSala;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import java.util.List;
 
 @WebServlet(name = "TipoSalaServlet",urlPatterns = "TipoSala")
 
 public class TipoSalaServlet extends HttpServlet {
+
     @Inject
-    TipoSalaBean tsBean;
+    public TipoSalaBean tsBean;
 
 @Override
-protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setContentType("text/html");
     PrintWriter out = resp.getWriter();
 

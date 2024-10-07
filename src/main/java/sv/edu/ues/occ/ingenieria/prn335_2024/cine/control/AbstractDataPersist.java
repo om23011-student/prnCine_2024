@@ -1,49 +1,89 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.control;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+
 import java.util.List;
 
-public abstract class AbstractDataPersist <T>{
-    public abstract EntityManager getEntityManager ();
+public abstract class AbstractDataPersist <T> {
+    public abstract EntityManager getEntityManager();
+
     Class TipoDatos;
 
-    public AbstractDataPersist(Class TipoDatos)  {
+    public AbstractDataPersist(Class TipoDatos) {
         this.TipoDatos = TipoDatos;
     }
 
     /**
      * Almacena un registro en el repositorio
+     *
      * @param entity Registro a almacenar
      * @throws IllegalArgumentException Si no puede acceder al repositorio, u ocurre un error al insertar
-     * @throws IllegalStateException Si el registro es nulo.
+     * @throws IllegalStateException    Si el registro es nulo.
      */
-    public void create(T entity) throws IllegalArgumentException,IllegalStateException {
-      EntityManager em = null;
-      if(entity == null){
-          throw new IllegalArgumentException("La entidad a persistir no puede ser nula");
-      }
-      try{
-          em = getEntityManager();
+    public void create(T entity) throws IllegalArgumentException, IllegalStateException {
+        EntityManager em = null;
+        if (entity == null) {
+            throw new IllegalArgumentException("La entidad a persistir no puede ser nula");
+        }
+        try {
+            em = getEntityManager();
 
-          if(em==null){
-              throw new IllegalStateException("Error al acceder al repositorio");
-          }
-          em.persist(entity);
-      }catch(Exception e){
-          throw new IllegalStateException("Error al acceder al repositorio",e);
+            if (em == null) {
+                throw new IllegalStateException("Error al acceder al repositorio");
+            }
+            em.persist(entity);
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al acceder al repositorio", e);
 
-      }
-
-
-
+        }
 
     }
+    public T update(T entity) throws IllegalArgumentException, IllegalStateException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+
+            if (entity == null) {
+                throw new IllegalArgumentException("La entidad no puede ser nula para hacer merge");
+            }
+
+            // Realiza el merge y devuelve la entidad gestionada
+            return em.merge(entity);
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al intentar hacer merge, acceder al repositorio", e);
+        }
+    }
+
+    public void delete(T entity) throws IllegalArgumentException, IllegalStateException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+
+            if (entity == null) {
+                throw new IllegalArgumentException("La entidad no puede ser nula en el delete");
+            }
+
+            // Adjunta la entidad si no está gestionada
+            T managedEntity = em.contains(entity) ? entity : em.merge(entity);
+
+            // Elimina la entidad
+            em.remove(managedEntity);
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al acceder al repositorio durante el delete", e);
+        }
+    }
+
+
+
+
+
 
     /**
      *Busca un registro en el repositorio por su identificador unico.
@@ -67,6 +107,7 @@ public abstract class AbstractDataPersist <T>{
         }
         return (T) em.find(TipoDatos,id);
     }
+
 public List<T> findRange(int first,int max) throws IllegalArgumentException,IllegalStateException {
     CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
     CriteriaQuery q = cb.createQuery(TipoDatos);
@@ -78,3 +119,6 @@ public List<T> findRange(int first,int max) throws IllegalArgumentException,Ille
     return query.getResultList();
 }
 }
+
+
+
