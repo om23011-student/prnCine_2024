@@ -15,6 +15,7 @@ public abstract class AbstractDataPersist <T> {
     Class TipoDatos;
 
     public AbstractDataPersist(Class TipoDatos) {
+
         this.TipoDatos = TipoDatos;
     }
 
@@ -118,7 +119,25 @@ public List<T> findRange(int first,int max) throws IllegalArgumentException,Ille
     query.setMaxResults(max);
     return query.getResultList();
 }
+public Long count() throws IllegalArgumentException,IllegalStateException {
+    CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+    // Define el "root" de la consulta, es decir, desde qué entidad consultar
+    Root<T> raiz = cq.from(TipoDatos);
+    // Definir la consulta como una función de conteo
+    cq.select(cb.count(raiz));
+    // Crear el query
+    TypedQuery<Long> query = getEntityManager().createQuery(cq);
+    try {
+        // Ejecutar el query y obtener el resultado
+        return query.getSingleResult();
+    } catch (Exception e) {
+        throw new IllegalStateException("Error al contar las filas", e);
+    }
 }
+
+}
+
 
 
 

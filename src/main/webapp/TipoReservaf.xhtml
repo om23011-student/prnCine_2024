@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Godofredo Gómez
+  Date: 7/10/2024
+  Time: 16:57
+-->
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces">
+
+<h:head>
+    <title>Tipo Reserva</title>
+</h:head>
+<h:body>
+<h:form id="frmTable">
+    <p:dataTable
+            value="#{frmTipoReservaf.modelo}"
+            var="r"
+            rows="10"
+            lazy="true"
+            selectionMode="single"
+            selection="#{frmTipoReservaf.registro}"
+            paginator="true"
+    >
+        <p:ajax event="rowSelect" update=":pnlDetalle" process="@this"/>
+        <p:column headerText="ID">
+            <h:outputText value="#{r.idTipoReserva}"/>
+        </p:column>
+        <p:column headerText="Nombre">
+            <h:outputText value="#{r.nombre}"/>
+        </p:column>
+
+        <p:column headerText="Estado">
+            <h:outputText value="#{r.activo?'ACTIVO':'INACTIVO'}"/>
+        </p:column>
+        <p:column headerText="Comentarios">
+            <h:outputText value="#{r.comentarios}"/>
+        </p:column>
+    </p:dataTable>
+    <h:panelGrid columns="2">
+        <p:commandButton ajax="true"
+                         value="Nuevo"
+                         process="@this"
+                         update=":pnlDetalle"
+                         actionListener="#{frmTipoReservaf.btnNuevoHandler}"
+
+        />
+        <p:commandButton
+                value="Cancelar"
+                ajax="true"
+                actionListener="#{frmTipoReservaf.btnCancelarHandler}"
+                update=":pnlDetalle"
+                process="@this"/>
+
+    </h:panelGrid>
+</h:form>
+<h:panelGroup id="pnlDetalle" styleClass="detalle">
+    <h:form id="frmDetalle" styleClass="detalle" rendered="#{not empty
+frmTipoReservaf.registro}">
+        <h:panelGrid columns="2">
+            <p:outputLabel value="ID" for="txtIdTipoReserva"/>
+            <h:inputText id="txtIdTipoReserva"
+
+                         value="#{frmTipoReservaf.registro.idTipoReserva}" readonly="true" disabled="true"/>
+
+            <p:outputLabel value="Nombre" for="txtNombre"/>
+            <h:inputText size="70" id="txtNombre"
+                         value="#{frmTipoReservaf.registro.nombre}"/>
+
+            <p:outputLabel for="chkActivo" value="Activo"/>
+            <h:selectBooleanCheckbox id="chkActivo"
+                                     value="#{frmTipoReservaf.registro.activo}"/>
+
+            <p:outputLabel for="txtComentarios" value="Comentarios"/>
+            <h:inputTextarea id="txtComentarios"
+
+                             value="#{frmTipoReservaf.registro.comentarios}" cols="70" rows="3"/>
+
+        </h:panelGrid>
+        <h:panelGrid columns="3">
+            <p:commandButton value="Guardar" ajax="true"
+
+                             process="@form"
+                             update=":pnlDetalle :frmTable"
+                             actionListener="#{frmTipoReservaf.btnCrearHandler}"
+                             rendered="#{frmTipoReservaf.estado == 'CREAR'}"
+
+            />
+            <p:commandButton value="Modificar" ajax="true"
+
+                             process="@form"
+                             update=":pnlDetalle :frmTable"
+                             rendered="#{frmTipoReservaf.estado == 'MODIFICAR'}"
+                             actionListener="#{frmTipoReservaf.btnModificarHandler}"/>
+
+            <p:commandButton value="Eliminar" ajax="true"
+
+                             process="@form"
+                             update=":pnlDetalle :frmTable"
+                             rendered="#{frmTipoReservaf.estado == 'MODIFICAR'}"
+                             actionListener="#{frmTipoReservaf.btnEliminarHandler}"/>
+
+        </h:panelGrid>
+    </h:form>
+</h:panelGroup>
+</h:body>
+</html>

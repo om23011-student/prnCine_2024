@@ -1,6 +1,7 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
@@ -14,7 +15,8 @@ public class TipoReserva implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTipoReserva;
 
-    @Size(max = 155)
+    @NotBlank(message ="Debe ingresar un nombre valido" )
+    @Size(max = 155,min = 3, message = "Debe agregar un nombre entre 3 y 155 caracteres")
     @Column(name = "nombre", length = 155)
     private String nombre;
 
