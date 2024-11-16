@@ -6,6 +6,12 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "sala_caracteristica")
+
+
+@NamedQueries({
+        @NamedQuery(name = "Salacaracteristica.findByIdSala",query = "SELECT sc FROM SalaCaracteristica sc WHERE sc.idSala.idSala=:idSala ORDER BY sc.idTipoSala.nombre ASC "),
+        @NamedQuery(name = "SalaCaracteristica.countByIdSala",query = "SELECT COUNT(sc.idSalaCarteristica) FROM SalaCaracteristica sc WHERE sc.idSala.idSala=:idSala ")
+})
 public class SalaCaracteristica implements Serializable {
     @Id
     @Column(name = "id_sala_caracteristica", nullable = false)

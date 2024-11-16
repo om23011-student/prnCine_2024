@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoReserva;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoSala;
 
 import static org.junit.jupiter.api.Assertions.*;
 

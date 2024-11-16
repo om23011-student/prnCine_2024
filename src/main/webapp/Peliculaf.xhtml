@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--FALTA RENDERIZAR LOS BOTONES PORQUE LOS NOMBRES DE LOS IDES SON DISTINTOS
+HAY QUE MANDAR PARAMETROS DE ACTUALIZACION-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core"
+                xmlns:cc="jakarta.faces.composite/crud"
+                template="WEB-INF/templates/principal.xhtml">
+
+
+    <ui:define name="titulo">
+        #{frmPeliculaf.tituloDePagina}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTable">
+                    <h:panelGrid>
+                        <p:dataTable value="#{frmPeliculaf.modelo}"
+                                     var="r"
+                                     rows="10"
+                                     lazy="true"
+                                     selectionMode="single"
+                                     selection="#{frmPeliculaf.registro}"
+                                     paginator="true"
+                                     rendered="#{frmPeliculaf.estado=='NINGUNO'}"
+                        >
+                            <p:ajax event="rowSelect" update=":pnlDetalle :pnlTabla" process="@this"/>
+                            <p:column headerText="ID">
+                                <h:outputText value="#{r.idPelicula}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Sinopsis">
+                                <h:outputText value="#{r.sinopsis}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+                        <h:panelGrid>
+                            <cc:botonesTop frm="#{frmPeliculaf}"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+
+            </h:panelGroup>
+
+
+            <h:panelGroup id="pnlDetalle">
+                <p:tabView id="tabDetalle" cache="false" dynamic="true" rendered="#{frmPeliculaf.estado!='NINGUNO'}">
+                    <p:tab title="Generalidades" closable="false">
+                        <h:panelGrid>
+                            <h:form id="frmDetalle" styleClass="detalle" >
+                                <h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Id" for="txtID"/>
+                                        <p:inputText id="txtId" disabled="true" readonly="true"
+                                                     value="#{frmPeliculaf.registro.idPelicula}"/>
+                                        <p:outputLabel value="Nombre" for="txtNombre"/>
+                                        <p:inputText id="txtNombre" value="#{frmPeliculaf.registro.nombre}" size="70"/>
+                                        <p:outputLabel value="Sinopsis" for="txtSinopsis"/>
+                                        <p:inputTextarea id="txtSinopsis" value="#{frmPeliculaf.registro.sinopsis}"
+                                                         rows="3"
+                                                         cols="70"/>
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                                <cc:botonesBotton frm="#{frmPeliculaf}"/>
+                            </h:form>
+                        </h:panelGrid>
+
+                    </p:tab>
+                    <p:tab title="Tipos" disabled="#{frmPeliculaf.estado!='MODIFICAR'}">
+
+                        <h:panelGrid>
+                            <h:panelGroup id="pnlTablaC">
+                                <h:form id="frmTableC">
+                                    <h:panelGrid>
+                                        <p:dataTable value="#{frmPeliculaf.frmPeliculaCaracteristicaf.modelo}"
+                                                     var="rc"
+                                                     rows="10"
+                                                     lazy="true"
+                                                     selectionMode="single"
+                                                     selection="#{frmPeliculaf.frmPeliculaCaracteristicaf.registro}"
+                                                     paginator="true"
+                                                     rendered="#{frmPeliculaf.frmPeliculaCaracteristicaf.estado=='NINGUNO'}"
+                                        >
+                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleC :pnlDetalle:pnlTablaC" process="@this"/>
+                                            <p:column headerText="ID">
+                                                <h:outputText value="#{rc.idPeliculaCaracteristica}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                    <cc:botonesBotton frm="#{frmPeliculaf.frmPeliculaCaracteristicaf} " actualizar=":tabDetalle:pnlDetalleC :pnlDetalle:pnlTablaC"/>
+                                </h:form>
+                            </h:panelGroup>
+                            <h:panelGroup id="pnlDetalleC">
+
+
+                                <h:panelGrid rendered="#{frmPeliculaf.estado!='NINGUNO'}">
+                                    <h:form id="frmDetalleC" styleClass="detalle" >
+                                        <h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="ID" for="txtID"/>
+                                                <p:inputText id="txtIdPeliculaCaracteristica" disabled="true" readonly="true"
+                                                             value="#{frmPeliculaf.frmPeliculaCaracteristicaf.registro.idPeliculaCaracteristica}"/>
+                                                <p:outputLabel value="Tipo Pelicula" for="txtNombre"/>
+                                                <h:selectOneMenu id="lstTpoPelicula" value="#{frmPeliculaf.frmPeliculaCaracteristicaf.idTipoPeliculaSeleccionado}">
+
+                                                    <f:selectItems values="#{frmPeliculaf.frmPeliculaCaracteristicaf.tiposPeliculaList}" var="tp"
+                                                                     itemLabel="#{tp.nombre}" itemValues="#{tp.idTiposPelicula}"/>
+                                                </h:selectOneMenu>
+
+
+                                                <p:outputLabel value="Valor" for="txtValor"/>
+                                                <p:inputTextarea id="txtValor" value="#{frmPeliculaf.frmPeliculaCaracteristicaf.registro.valor}"
+                                                                 rows="3"
+                                                                 cols="70"/>
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+                                        <cc:botonesBotton frm="#{frmPeliculaf.frmPeliculaCaracteristicaf}" actualizar=":pnlDetalleC :frmTableC"/>
+                                    </h:form>
+                                </h:panelGrid>
+
+
+
+
+
+
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView>
+
+            </h:panelGroup>
+        </h:panelGrid>
+    </ui:define>
+
+
+
+</ui:composition>

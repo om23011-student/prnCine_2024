@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.facelets"
+      xmlns:cc="jakarta.faces.composite/crud"
+      template="WEB-INF/templates/principal.xhtml">
+
+
+<f:define name="titulo">
+    #{frmTipoAsientof.tituloDePagina}
+</f:define>
+
+<f:define name="cuerpo">
+    <h:form id="frmTable">
+        <p:dataTable
+                value="#{frmTipoAsientof.modelo}"
+                var="r"
+                rows="10"
+                lazy="true"
+                selectionMode="single"
+                selection="#{frmTipoAsientof.registro}"
+                paginator="true"
+        >
+            <p:ajax event="rowSelect" update=":pnlDetalle" process="@this"/>
+            <p:column headerText="ID">
+                <h:outputText value="#{r.idTipoAsiento}"/>
+            </p:column>
+            <p:column headerText="Nombre">
+                <h:outputText value="#{r.nombre}"/>
+            </p:column>
+
+            <p:column headerText="Estado">
+                <h:outputText value="#{r.activo?'ACTIVO':'INACTIVO'}"/>
+            </p:column>
+            <p:column headerText="Comentarios">
+                <h:outputText value="#{r.comentarios}"/>
+            </p:column>
+            <p:column headerText="Expresion Regular">
+                <h:outputText value="#{r.expresionRegular}"/>
+            </p:column>
+        </p:dataTable>
+
+        <cc:botonesTop frm="#{frmTipoAsientof}"/>
+
+
+    </h:form>
+    <h:panelGroup id="pnlDetalle" styleClass="detalle">
+        <h:form id="frmDetalle" styleClass="detalle" rendered="#{not empty frmTipoAsientof.registro}">
+            <h:panelGrid columns="2">
+                <p:outputLabel value="ID" for="txtIdTipoAsiento"/>
+                <p:inputText id="txtIdTipoAsiento"
+
+                             value="#{frmTipoAsientof.registro.idTipoAsiento}" readonly="true" disabled="true"/>
+
+                <p:outputLabel value="Nombre" for="txtNombre"/>
+                <p:inputText size="70" id="txtNombre"
+                             value="#{frmTipoAsientof.registro.nombre}"/>
+
+                <p:outputLabel for="chkActivo" value="Activo"/>
+                <p:selectBooleanCheckbox id="chkActivo"
+                                         value="#{frmTipoAsientof.registro.activo}"/>
+                <p:outputLabel for="txtComentarios" value="Comentarios"/>
+                <p:inputTextarea id="txtComentarios"
+
+                                 value="#{frmTipoAsientof.registro.comentarios}" cols="70" rows="2"/>
+                <p:outputLabel for="txtExpresionRegular" value="Expresion Regular"/>
+                <p:inputTextarea id="txtExpresionRegular"
+                                 value="#{frmTipoAsientof.registro.expresionRegular}" cols="70" rows="2"/>
+            </h:panelGrid>
+            <h:panelGrid columns="3">
+                <p:commandButton value="Guardar" ajax="true"
+                                 process="@form"
+                                 update=":pnlDetalle :frmTable"
+                                 actionListener="#{frmTipoAsientof.btnCrearHandler}"
+                                 rendered="#{frmTipoAsientof.estado == 'CREAR'}"
+                />
+                <p:commandButton value="Modificar" ajax="true"
+                                 process="@form"
+                                 update=":pnlDetalle :frmTable"
+                                 rendered="#{frmTipoAsientof.estado == 'MODIFICAR'}"
+                                 actionListener="#{frmTipoAsientof.btnModificarHandler}"/>
+
+                <p:commandButton value="Eliminar" ajax="true"
+                                 process="@form"
+                                 update=":pnlDetalle :frmTable"
+                                 rendered="#{frmTipoAsientof.estado == 'MODIFICAR'}"
+                                 actionListener="#{frmTipoAsientof.btnEliminarHandler}"/>
+            </h:panelGrid>
+        </h:form>
+        <p:growl id="growl" showSummary="true" showDetail="true" life="3000" />
+    </h:panelGroup>
+</f:define>
+
+</f:composition>

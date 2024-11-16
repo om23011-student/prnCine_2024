@@ -20,4 +20,12 @@ public class TipoPagoBean extends AbstractDataPersist<TipoPago> implements Seria
     public EntityManager getEntityManager() {
         return em;
     }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Sala implements Serializable {
     @Id
     @Column(name = "id_sala", nullable = false)
-    private Integer idSala;
+    private Long idSala;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sucursal")
@@ -43,18 +43,18 @@ public class Sala implements Serializable {
     @Column(name = "observaciones")
     private String observaciones;
 
-    public Sala(Integer idSala) {
+    public Sala(Long idSala) {
         this.idSala = idSala;
     }
     public Sala() {
 
     }
 
-    public Integer getIdSala() {
+    public Long getIdSala() {
         return idSala;
     }
 
-    public void setIdSala(Integer idSala) {
+    public void setIdSala(Long idSala) {
         this.idSala = idSala;
     }
 

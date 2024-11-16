@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "tipo_sala")
+@Table(name = "tipo_sala",schema = "public")
 public class TipoSala implements Serializable {
     @Id
     @Column(name = "id_tipo_sala", nullable = false)
@@ -41,6 +41,7 @@ public class TipoSala implements Serializable {
         this.idTipoSala = idTipoSala;
     }
     public TipoSala() {
+
     }
 
 

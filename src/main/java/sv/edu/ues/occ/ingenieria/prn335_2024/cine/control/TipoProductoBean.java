@@ -20,4 +20,12 @@ public class TipoProductoBean extends AbstractDataPersist<TipoProducto> implemen
     public EntityManager getEntityManager() {
         return em;
     }
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
 }

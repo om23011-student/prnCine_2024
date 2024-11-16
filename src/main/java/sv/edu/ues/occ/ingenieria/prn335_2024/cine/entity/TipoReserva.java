@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "tipo_reserva")
+@Table(name = "tipo_reserva",schema = "public")
 public class TipoReserva implements Serializable {
     @Id
     @Column(name = "id_tipo_reserva", nullable = false)

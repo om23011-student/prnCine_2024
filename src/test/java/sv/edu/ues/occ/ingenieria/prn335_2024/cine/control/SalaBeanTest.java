@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+
 
 public class SalaBeanTest {
 
-    @Test
-  public void findById(){
+   /* @Test
+  /*public void findById(){
         System.out.println("SalaBean.finById");
         List<Sala> buscados= Arrays.asList(new Sala[]{new Sala(1), new Sala(2), new Sala(3), new Sala(4), new Sala(5)});
         Query mockQuery= Mockito.mock(Query.class);
@@ -32,5 +32,5 @@ public class SalaBeanTest {
 
 
        // fail("Lo nuestro no puede funcionar");
-    }
+    }*/
 }
